@@ -134,3 +134,9 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# TLS/mTLS Certificates
+**/certs/*.crt
+**/certs/*.key
+**/certs/*.csr
+**/certs/*.srl

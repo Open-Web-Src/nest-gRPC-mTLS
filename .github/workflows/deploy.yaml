@@ -79,24 +79,6 @@ jobs:
           script: |
             cd $APP_DIR
 
-            # ✅ Install Docker if not installed
-            if ! command -v docker &> /dev/null; then
-              echo "🐳 Installing Docker..."
-              sudo yum update -y
-              sudo amazon-linux-extras install docker -y || sudo yum install docker -y
-              sudo systemctl enable docker
-              sudo systemctl start docker
-              sudo usermod -aG docker ec2-user
-              sleep 5
-            fi
-
-            # ⚙️ Auto-install Docker Compose if not found
-            if ! command -v docker-compose &> /dev/null; then
-              echo "⚙️ Installing Docker Compose..."
-              sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-              sudo chmod +x /usr/local/bin/docker-compose
-            fi
-
             # Update docker-compose.prod.yaml with the latest image tags
             sed -i "s|image:.*user-service.*|image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_USER_REPO }}:${{ env.IMAGE_TAG }}|" docker-compose.prod.yaml
             sed -i "s|image:.*order-service.*|image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_ORDER_REPO }}:${{ env.IMAGE_TAG }}|" docker-compose.prod.yaml
@@ -106,6 +88,6 @@ jobs:
               docker login --username AWS --password-stdin \
               ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-            sudo docker-compose -f docker-compose.prod.yaml pull
-            sudo docker-compose -f docker-compose.prod.yaml down
-            sudo docker-compose -f docker-compose.prod.yaml up -d
+            docker-compose -f docker-compose.prod.yaml pull
+            docker-compose -f docker-compose.prod.yaml down
+            docker-compose -f docker-compose.prod.yaml up -d

@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  user-service:
+    image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/user-service:latest # 🔁 Will be replaced by GitHub Actions (sed)
+    ports:
+      - "3000:3000" # HTTP (for NGINX / REST clients)
+      - "50052:50051" # gRPC (for internal microservice comms)
+    restart: always
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - order-service
+
+  order-service:
+    image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/order-service:latest # 🔁 Will be replaced by GitHub Actions (sed)
+    ports:
+      - "50051:50051"
+    restart: always
+    environment:
+      - NODE_ENV=production
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - user-service

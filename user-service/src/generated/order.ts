@@ -12,48 +12,44 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 /**
- * @generated from protobuf message order.GetOrderRequest
+ * @generated from protobuf message order.GetOrdersRequest
  */
-export interface GetOrderRequest {
+export interface GetOrdersRequest {
     /**
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: string userId = 1;
      */
-    id: string;
+    userId: string;
 }
 /**
- * @generated from protobuf message order.OrderResponse
+ * @generated from protobuf message order.GetOrdersResponse
  */
-export interface OrderResponse {
+export interface GetOrdersResponse {
     /**
-     * @generated from protobuf field: string id = 1;
+     * @generated from protobuf field: repeated string orderIds = 1;
      */
-    id: string;
-    /**
-     * @generated from protobuf field: string item = 2;
-     */
-    item: string;
+    orderIds: string[];
 }
 // @generated message type with reflection information, may provide speed optimized methods
-class GetOrderRequest$Type extends MessageType<GetOrderRequest> {
+class GetOrdersRequest$Type extends MessageType<GetOrdersRequest> {
     constructor() {
-        super("order.GetOrderRequest", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        super("order.GetOrdersRequest", [
+            { no: 1, name: "userId", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<GetOrderRequest>): GetOrderRequest {
+    create(value?: PartialMessage<GetOrdersRequest>): GetOrdersRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.id = "";
+        message.userId = "";
         if (value !== undefined)
-            reflectionMergePartial<GetOrderRequest>(this, message, value);
+            reflectionMergePartial<GetOrdersRequest>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetOrderRequest): GetOrderRequest {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetOrdersRequest): GetOrdersRequest {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
+                case /* string userId */ 1:
+                    message.userId = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -66,10 +62,10 @@ class GetOrderRequest$Type extends MessageType<GetOrderRequest> {
         }
         return message;
     }
-    internalBinaryWrite(message: GetOrderRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
+    internalBinaryWrite(message: GetOrdersRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string userId = 1; */
+        if (message.userId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.userId);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -77,35 +73,30 @@ class GetOrderRequest$Type extends MessageType<GetOrderRequest> {
     }
 }
 /**
- * @generated MessageType for protobuf message order.GetOrderRequest
+ * @generated MessageType for protobuf message order.GetOrdersRequest
  */
-export const GetOrderRequest = new GetOrderRequest$Type();
+export const GetOrdersRequest = new GetOrdersRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class OrderResponse$Type extends MessageType<OrderResponse> {
+class GetOrdersResponse$Type extends MessageType<GetOrdersResponse> {
     constructor() {
-        super("order.OrderResponse", [
-            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "item", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        super("order.GetOrdersResponse", [
+            { no: 1, name: "orderIds", kind: "scalar", repeat: 2 /*RepeatType.UNPACKED*/, T: 9 /*ScalarType.STRING*/ }
         ]);
     }
-    create(value?: PartialMessage<OrderResponse>): OrderResponse {
+    create(value?: PartialMessage<GetOrdersResponse>): GetOrdersResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.id = "";
-        message.item = "";
+        message.orderIds = [];
         if (value !== undefined)
-            reflectionMergePartial<OrderResponse>(this, message, value);
+            reflectionMergePartial<GetOrdersResponse>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: OrderResponse): OrderResponse {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetOrdersResponse): GetOrdersResponse {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string id */ 1:
-                    message.id = reader.string();
-                    break;
-                case /* string item */ 2:
-                    message.item = reader.string();
+                case /* repeated string orderIds */ 1:
+                    message.orderIds.push(reader.string());
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -118,13 +109,10 @@ class OrderResponse$Type extends MessageType<OrderResponse> {
         }
         return message;
     }
-    internalBinaryWrite(message: OrderResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string id = 1; */
-        if (message.id !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.id);
-        /* string item = 2; */
-        if (message.item !== "")
-            writer.tag(2, WireType.LengthDelimited).string(message.item);
+    internalBinaryWrite(message: GetOrdersResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* repeated string orderIds = 1; */
+        for (let i = 0; i < message.orderIds.length; i++)
+            writer.tag(1, WireType.LengthDelimited).string(message.orderIds[i]);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -132,12 +120,12 @@ class OrderResponse$Type extends MessageType<OrderResponse> {
     }
 }
 /**
- * @generated MessageType for protobuf message order.OrderResponse
+ * @generated MessageType for protobuf message order.GetOrdersResponse
  */
-export const OrderResponse = new OrderResponse$Type();
+export const GetOrdersResponse = new GetOrdersResponse$Type();
 /**
  * @generated ServiceType for protobuf service order.OrderService
  */
 export const OrderService = new ServiceType("order.OrderService", [
-    { name: "GetOrder", options: {}, I: GetOrderRequest, O: OrderResponse }
+    { name: "GetOrders", options: {}, I: GetOrdersRequest, O: GetOrdersResponse }
 ]);

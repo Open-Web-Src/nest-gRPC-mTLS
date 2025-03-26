@@ -5,8 +5,8 @@ import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { OrderService } from "./order";
 import { stackIntercept } from "@protobuf-ts/runtime-rpc";
-import type { OrderResponse } from "./order";
-import type { GetOrderRequest } from "./order";
+import type { GetOrdersResponse } from "./order";
+import type { GetOrdersRequest } from "./order";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
@@ -14,9 +14,9 @@ import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
  */
 export interface IOrderServiceClient {
     /**
-     * @generated from protobuf rpc: GetOrder(order.GetOrderRequest) returns (order.OrderResponse);
+     * @generated from protobuf rpc: GetOrders(order.GetOrdersRequest) returns (order.GetOrdersResponse);
      */
-    getOrder(input: GetOrderRequest, options?: RpcOptions): UnaryCall<GetOrderRequest, OrderResponse>;
+    getOrders(input: GetOrdersRequest, options?: RpcOptions): UnaryCall<GetOrdersRequest, GetOrdersResponse>;
 }
 /**
  * @generated from protobuf service order.OrderService
@@ -28,10 +28,10 @@ export class OrderServiceClient implements IOrderServiceClient, ServiceInfo {
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * @generated from protobuf rpc: GetOrder(order.GetOrderRequest) returns (order.OrderResponse);
+     * @generated from protobuf rpc: GetOrders(order.GetOrdersRequest) returns (order.GetOrdersResponse);
      */
-    getOrder(input: GetOrderRequest, options?: RpcOptions): UnaryCall<GetOrderRequest, OrderResponse> {
+    getOrders(input: GetOrdersRequest, options?: RpcOptions): UnaryCall<GetOrdersRequest, GetOrdersResponse> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
-        return stackIntercept<GetOrderRequest, OrderResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetOrdersRequest, GetOrdersResponse>("unary", this._transport, method, opt, input);
     }
 }

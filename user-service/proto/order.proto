@@ -3,14 +3,13 @@ syntax = "proto3";
 package order;
 
 service OrderService {
-  rpc GetOrder (GetOrderRequest) returns (OrderResponse);
+  rpc GetOrders (GetOrdersRequest) returns (GetOrdersResponse);
 }
 
-message GetOrderRequest {
-  string id = 1;
+message GetOrdersRequest {
+  string userId = 1;
 }
 
-message OrderResponse {
-  string id = 1;
-  string item = 2;
+message GetOrdersResponse {
+  repeated string orderIds = 1;
 }

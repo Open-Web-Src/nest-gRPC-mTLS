@@ -79,7 +79,14 @@ jobs:
           script: |
             cd $APP_DIR
 
-            # Auto-install Docker Compose if not found
+            # ✅ Start Docker if not running
+            if ! pgrep -x "dockerd" > /dev/null; then
+              echo "🚀 Starting Docker service..."
+              sudo systemctl start docker
+              sleep 5
+            fi
+
+            # ⚙️ Auto-install Docker Compose if not found
             if ! command -v docker-compose &> /dev/null; then
               echo "⚙️ Installing Docker Compose..."
               sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose

@@ -101,6 +101,11 @@ jobs:
             sed -i "s|image:.*user-service.*|image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_USER_REPO }}:${{ env.IMAGE_TAG }}|" docker-compose.prod.yaml
             sed -i "s|image:.*order-service.*|image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_ORDER_REPO }}:${{ env.IMAGE_TAG }}|" docker-compose.prod.yaml
 
+            # 🚀 Log in to ECR using EC2 IAM role
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | \
+              docker login --username AWS --password-stdin \
+              ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+
             sudo docker-compose -f docker-compose.prod.yaml pull
             sudo docker-compose -f docker-compose.prod.yaml down
             sudo docker-compose -f docker-compose.prod.yaml up -d

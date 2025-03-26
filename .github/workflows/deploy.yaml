@@ -101,6 +101,6 @@ jobs:
             sed -i "s|image:.*user-service.*|image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_USER_REPO }}:${{ env.IMAGE_TAG }}|" docker-compose.prod.yaml
             sed -i "s|image:.*order-service.*|image: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_ORDER_REPO }}:${{ env.IMAGE_TAG }}|" docker-compose.prod.yaml
 
-            docker-compose -f docker-compose.prod.yaml pull
-            docker-compose -f docker-compose.prod.yaml down
-            docker-compose -f docker-compose.prod.yaml up -d
+            sudo docker-compose -f docker-compose.prod.yaml pull
+            sudo docker-compose -f docker-compose.prod.yaml down
+            sudo docker-compose -f docker-compose.prod.yaml up -d

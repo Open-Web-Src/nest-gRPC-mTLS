@@ -79,10 +79,14 @@ jobs:
           script: |
             cd $APP_DIR
 
-            # ✅ Start Docker if not running
-            if ! pgrep -x "dockerd" > /dev/null; then
-              echo "🚀 Starting Docker service..."
+            # ✅ Install Docker if not installed
+            if ! command -v docker &> /dev/null; then
+              echo "🐳 Installing Docker..."
+              sudo yum update -y
+              sudo amazon-linux-extras install docker -y || sudo yum install docker -y
+              sudo systemctl enable docker
               sudo systemctl start docker
+              sudo usermod -aG docker ec2-user
               sleep 5
             fi
 

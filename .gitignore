@@ -140,3 +140,6 @@ dist
 **/certs/*.key
 **/certs/*.csr
 **/certs/*.srl
+
+# Report
+**/eslint-report.json

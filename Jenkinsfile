@@ -2,31 +2,26 @@ pipeline {
   agent any
 
   stages {
-    stage('Pre-Build') {
+    stage('Checkout') {
       steps {
         checkout scm
-        sh '''
-          echo Installing user-service dependencies...
-          cd user-service
-          npm install --legacy-peer-deps
+      }
+    }
 
-          echo Installing order-service dependencies...
-          cd ../order-service
-          npm install --legacy-peer-deps
+    stage('Install Dependencies') {
+      steps {
+        sh '''
+          cd user-service && npm install
+          cd ../order-service && npm install
         '''
       }
     }
 
-    stage('Build') {
+    stage('Lint') {
       steps {
         sh '''
-          echo Building user-service...
-          cd user-service
-          npm run build
-
-          echo Building order-service...
-          cd ../order-service
-          npm run build
+          cd user-service && npm run lint
+          cd ../order-service && npm run lint
         '''
       }
     }
@@ -34,30 +29,28 @@ pipeline {
     stage('Test') {
       steps {
         sh '''
-          echo Testing user-service...
-          cd user-service
-          # npm run test
-          echo Test success!
-
-          echo Testing order-service...
-          cd ../order-service
-          # npm run test
-          echo Test success!
+          cd user-service && npm run test -- --coverage --passWithNoTests
+          cd ../order-service && npm run test -- --coverage --passWithNoTests
         '''
       }
     }
 
-    stage('Sonar Analysis') {
+    stage('Generate ESLint Reports') {
       steps {
-        withSonarQubeEnv('LocalSonar') {
-          sh 'sonar-scanner'
-        }
+        sh '''
+          cd user-service && npx eslint src/ --format json -o eslint-report.json
+          cd ../order-service && npx eslint src/ --format json -o eslint-report.json
+        '''
       }
     }
 
-    stage('Deploy') {
+    stage('SonarQube Analysis') {
       steps {
-        sh 'echo Deploying to production server...'
+        withSonarQubeEnv('LocalSonar') {
+          sh '''
+            sonar-scanner
+          '''
+        }
       }
     }
   }
